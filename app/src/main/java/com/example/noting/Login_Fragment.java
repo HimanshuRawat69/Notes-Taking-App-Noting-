@@ -99,40 +99,5 @@ public class Login_Fragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    public void logoutUser(final LogoutCallback callback) {
-        if (isAdded() && getActivity() != null) {
-            gsc.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    dbHelper.logoutUser();
-                    if (getActivity() != null) {
-                        Toast.makeText(getActivity(), "Logged out successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Handle case where getActivity() returns null (should not happen here)
-                    }
-                    if (callback != null) {
-                        callback.onLogoutSuccess();
-                    }
-                }
-            });
-        } else {
-            if (callback != null) {
-                callback.onLogoutSuccess();
-            }
-        }
-    }
 
-
-    private void navigateToLoginFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Login_Fragment loginFragment = new Login_Fragment();
-        fragmentTransaction.replace(R.id.container_fragment, loginFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-    public interface LogoutCallback {
-        void onLogoutSuccess();
-    }
 }
