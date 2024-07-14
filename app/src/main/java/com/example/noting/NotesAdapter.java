@@ -17,7 +17,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     private ArrayList<Note> notesList;
     private OnNoteClickListener onNoteClickListener;
 
-    public NotesAdapter(Context context, ArrayList<Note> notesList, OnNoteClickListener onNoteClickListener) {
+    public NotesAdapter(Context context, ArrayList<Note> notesList, OnNoteClickListener onNoteClickListener ) {
         this.context = context;
         this.notesList = notesList;
         this.onNoteClickListener = onNoteClickListener;

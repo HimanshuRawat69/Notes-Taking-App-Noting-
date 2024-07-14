@@ -1,20 +1,19 @@
 package com.example.noting;
 
 import android.os.Bundle;
-
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.noting.databinding.FragmentNotesListBinding;
 import java.util.ArrayList;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class Notes_List extends Fragment implements NotesAdapter.OnNoteClickListener {
 
@@ -50,6 +49,14 @@ public class Notes_List extends Fragment implements NotesAdapter.OnNoteClickList
                 logoutUser();
             }
         });
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                getActivity().onBackPressed();
+            }
+        });
+
         return rootView;
     }
 
@@ -70,11 +77,13 @@ public class Notes_List extends Fragment implements NotesAdapter.OnNoteClickList
         notesAdapter.notifyItemRemoved(position);
         Toast.makeText(requireContext(), "Note deleted", Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onEditClick(int position) {
         Note note = noteList.get(position);
         navigateToAddEditNoteFragment(note);
     }
+
     private void navigateToAddEditNoteFragment(Note note) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("note", note);

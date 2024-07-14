@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -63,27 +65,24 @@ public class Add_Note extends Fragment {
     private void saveNote() {
         String title = binding.editTextTitle.getText().toString().trim();
         String content = binding.editTextContent.getText().toString().trim();
-        String userEmail = dbHelper.getLoggedInUserEmail(); // Get the logged-in user's email
+        String userEmail = dbHelper.getLoggedInUserEmail();
 
         if (title.isEmpty() || content.isEmpty()) {
-            // Display an error
+            Toast.makeText(getContext(), "Title and Content must not be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (existingNote == null) {
-            // Add new note
             Note note = new Note();
             note.setTitle(title);
             note.setContent(content);
             dbHelper.addNote(note, userEmail);
         } else {
-            // Update existing note
             existingNote.setTitle(title);
             existingNote.setContent(content);
             dbHelper.updateNote(existingNote, userEmail);
         }
 
-        // Navigate back to notes list
         getActivity().getSupportFragmentManager().popBackStack();
     }
 }
